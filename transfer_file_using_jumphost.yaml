@@ -1,0 +1,18 @@
+---
+- name: Download file on jumphost
+  hosts: jump-host-inventory
+
+  tasks:
+  - name: get file from git
+    get_url:
+      url: "{file_url}"
+      dest: "/tmp/target_file.txt"
+
+  - name: Transfer file from jumphost to yellowzones
+    synchronize:
+      src: /tmp/target_file.txt
+      dest: /tmp/target_file.txt
+      mode: pull
+    delegate_to: 	aws-hosts-using-jumphost
+
+
