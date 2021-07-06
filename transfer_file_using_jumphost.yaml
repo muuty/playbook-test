@@ -8,11 +8,11 @@
       url: "{{file_url}}"
       dest: "/tmp/target_file.txt"
 
-  - name: Transfer file from jumphost to yellowzones
-    synchronize:
-      src: /tmp/target_file.txt
-      dest: /tmp/target_file.txt
-      mode: pull
-    delegate_to: 	yellowzone
-
+- hosts: all:!jumphost
+  gather_facts: no
+  tasks:
+    - synchronize:
+        src: /tmp/target_file.txt
+        dest: /tmp/target_file.txt
+      delegate_to: jumphost
 
