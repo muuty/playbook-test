@@ -1,0 +1,23 @@
+---
+- name: deploy test web applicaiton
+  hosts: jumphost
+  become: True
+  pre_tasks:
+    - name: install the java-1.8.0-openjdk and devel packages
+      dnf:
+        name: 
+        - java-1.8.0-openjdk
+        - java-1.8.0-openjdk-devel
+        state: present
+  tasks:
+    - name: download jar file for application from web
+      get_url:
+        url: "{{ snapshot_domain }}{{ jar_path }}"
+        dest: "/tmp/freelec-springboot2-webservice.jar"
+      when: snapshot_domain and jar_path
+  
+    - name: run web application with java
+      shell: "nohup java -jar freelec-springboot2-webservice.jar </dev/null >/dev/null 2>&1 &"
+      poll: 0
+      args:
+        chdir: /tmp/
