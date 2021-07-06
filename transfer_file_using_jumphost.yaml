@@ -1,9 +1,9 @@
 ---
 - name: Download file on jumphost
-  hosts: jump-host-inventory
+  hosts: jumphost
 
   tasks:
-  - name: get file from git
+  - name: get file from url
     get_url:
       url: "{file_url}"
       dest: "/tmp/target_file.txt"
@@ -13,6 +13,6 @@
       src: /tmp/target_file.txt
       dest: /tmp/target_file.txt
       mode: pull
-    delegate_to: 	aws-hosts-using-jumphost
+    delegate_to: 	yellowzone
 
 
