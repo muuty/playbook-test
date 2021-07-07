@@ -8,12 +8,12 @@
         dest: "/tmp/freelec-springboot2-webservice.jar"
       when: snapshot_domain and jar_path
 
-  - name: Fetch jar file from jumphost to master
-    run_once: yes
-    fetch: 
-      src: "/tmp/freelec-springboot2-webservice.jar"
-      dest: "/tmp/freelec-springboot2-webservice.jar"
-      flat: yes
+    - name: Fetch jar file from jumphost to master
+      run_once: yes
+      fetch: 
+        src: "/tmp/freelec-springboot2-webservice.jar"
+        dest: "/tmp/freelec-springboot2-webservice.jar"
+        flat: yes
     
 
 - name: deploy test web applicaiton
