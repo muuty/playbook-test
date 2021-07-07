@@ -14,7 +14,8 @@
     - synchronize:
         src: /tmp/target_file.txt
         dest: /tmp/target_file.txt
+        rsync_opts:
+          - "--chmod=F644"
       delegate_to: jumphost
-      rsync_opts:
-        - "--chmod=F644"
+
 
