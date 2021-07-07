@@ -17,7 +17,7 @@
     
 
 - name: deploy test web applicaiton
-  hosts: all!jumphost
+  hosts: all:!jumphost
   become: True
   pre_tasks:
     - name: install the java-1.8.0-openjdk and devel packages
