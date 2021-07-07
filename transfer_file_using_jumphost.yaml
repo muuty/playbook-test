@@ -14,6 +14,6 @@
     - synchronize:
         src: /tmp/target_file.txt
         dest: /tmp/target_file.txt
-        rsync_opts: --rsh "ssh -o PasswordAuthentication=no -i $JH_SSH_PRIVATE_KEY"
+        rsync_opts: --rsh "ssh -o PasswordAuthentication=no -i {{JH_SSH_PRIVATE_KEY}}"
       delegate_to: jumphost
 
