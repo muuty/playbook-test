@@ -1,21 +1,26 @@
 ---
 - name: Download file on jumphost
   hosts: jumphost
-
   tasks:
   - name: get file from url
     get_url:
       url: "{{file_url}}"
       dest: "/tmp/target_file.txt"
 
+  - name: Fetch the file from the mwiapp01 to master
+    run_once: yes
+    fetch: 
+      src: "/tmp/target_file.txt"
+      dest: "/tmp/target_file.txt"
+      flat: yes
+    
+
 - hosts: all:!jumphost
   gather_facts: no
   tasks:
-    - synchronize:
+    - copy:
         src: /tmp/target_file.txt
         dest: /tmp/target_file.txt
-        rsync_opts:
-          - "--chmod=F644"
-      delegate_to: jumphost
+
 
 
