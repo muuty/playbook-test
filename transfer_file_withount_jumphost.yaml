@@ -1,0 +1,9 @@
+---
+- name: Download file on jumphost
+  hosts: all
+
+  tasks:
+  - name: get file from url
+    get_url:
+      url: "{{file_url}}"
+      dest: "/tmp/target_file.txt"
