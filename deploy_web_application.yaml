@@ -1,6 +1,23 @@
 ---
-- name: deploy test web applicaiton
+- name: Download file on jumphost
   hosts: jumphost
+  tasks:
+    - name: download jar file for application from web
+      get_url:
+        url: "{{ snapshot_domain }}{{ jar_path }}"
+        dest: "/tmp/freelec-springboot2-webservice.jar"
+      when: snapshot_domain and jar_path
+
+  - name: Fetch jar file from jumphost to master
+    run_once: yes
+    fetch: 
+      src: "/tmp/freelec-springboot2-webservice.jar"
+      dest: "/tmp/freelec-springboot2-webservice.jar"
+      flat: yes
+    
+
+- name: deploy test web applicaiton
+  hosts: all!jumphost
   become: True
   pre_tasks:
     - name: install the java-1.8.0-openjdk and devel packages
@@ -10,11 +27,10 @@
         - java-1.8.0-openjdk-devel
         state: present
   tasks:
-    - name: download jar file for application from web
-      get_url:
-        url: "{{ snapshot_domain }}{{ jar_path }}"
+    - name: download jar file for application from jumphost
+      copy:
+        src: "/tmp/freelec-springboot2-webservice.jar"
         dest: "/tmp/freelec-springboot2-webservice.jar"
-      when: snapshot_domain and jar_path
   
     - name: run web application with java
       shell: "nohup java -jar freelec-springboot2-webservice.jar </dev/null >/dev/null 2>&1 &"
